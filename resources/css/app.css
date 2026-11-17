@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	font-family: "DM Sans", ui-sans-serif, sans-serif;
+}
+
+.font-serif {
+	font-family: "Playfair Display", ui-serif, Georgia, serif;
+}

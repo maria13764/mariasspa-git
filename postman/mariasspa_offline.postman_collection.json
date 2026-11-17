@@ -1,0 +1,158 @@
+{
+  "info": {
+    "name": "MariaSSPA Offline API",
+    "description": "Local offline requests for GET, POST, PUT, PATCH, and DELETE against the MariaSSPA Laravel API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{api_token}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000", "type": "string" },
+    { "key": "admin_email", "value": "admin@mariasspa.test", "type": "string" },
+    { "key": "admin_password", "value": "password", "type": "string" },
+    { "key": "api_token", "value": "", "type": "string" },
+    { "key": "appointment_id", "value": "1", "type": "string" },
+    { "key": "date", "value": "2035-12-01T10:00:00+08:00", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "POST Get Admin Bearer Token",
+      "request": {
+        "auth": { "type": "noauth" },
+        "method": "POST",
+        "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{admin_email}}\",\n  \"password\": \"{{admin_password}}\",\n  \"device_name\": \"Postman\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/tokens",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "tokens"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.environment.set('api_token', pm.response.json().token);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "GET All Appointments",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": {
+          "raw": "{{base_url}}/api/appointments",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "appointments"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET One Appointment",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": {
+          "raw": "{{base_url}}/api/appointments/{{appointment_id}}",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "appointments", "{{appointment_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST Create Appointment",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"client_name\": \"Jamie Client\",\n  \"client_phone\": \"09171234567\",\n  \"client_email\": \"jamie@example.test\",\n  \"service\": \"swedish\",\n  \"appointment_at\": \"{{date}}\",\n  \"notes\": \"Use a lighter pressure.\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/appointments",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "appointments"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT Replace Appointment",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"client_name\": \"Jamie Client\",\n  \"client_phone\": \"09171234567\",\n  \"client_email\": \"jamie@example.test\",\n  \"service\": \"swedish\",\n  \"appointment_at\": \"{{date}}\",\n  \"status\": \"pending\",\n  \"notes\": \"Replaced by PUT request.\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/appointments/{{appointment_id}}",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "appointments", "{{appointment_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PATCH Update Appointment",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"confirmed\",\n  \"notes\": \"Updated by PATCH request.\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/appointments/{{appointment_id}}",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "appointments", "{{appointment_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE Appointment",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": {
+          "raw": "{{base_url}}/api/appointments/{{appointment_id}}",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "appointments", "{{appointment_id}}"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
